@@ -310,6 +310,22 @@
       text-decoration-thickness: 1px;
       text-underline-offset: 5px;
     }
+    .afternoon-options { display: grid; gap: 12px; margin-top: 20px; }
+    .afternoon-option {
+      display: block;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .35);
+      text-decoration: none;
+      transition: border-color .25s ease, background-color .25s ease;
+    }
+    .afternoon-option:hover, .afternoon-option:focus-visible {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, .6);
+    }
+    .afternoon-option h3 { margin: 0 0 7px; font: 500 1.5rem/1.15 var(--serif); }
+    .afternoon-option p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .afternoon-option span { display: inline-block; margin-top: 12px; color: var(--accent); font-size: .75rem; font-weight: 700; }
 
     .bars-copy { margin-bottom: 18px; }
     .bar-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -392,6 +408,7 @@
       .intro h2 { max-width: 800px; }
       .chapter-label { margin-bottom: 24px; }
       .dinner-layout, .club-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(40px, 7vw, 100px); align-items: center; }
+      .afternoon-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .dinner-photo { height: clamp(260px, 42svh, 490px); margin: 0; }
       .bars-copy { margin-bottom: 24px; }
       .bar-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -451,6 +468,7 @@
   <nav class="section-nav" aria-label="Abschnitte des Abends">
     <a href="#start" aria-label="Start" aria-current="location"><span class="nav-label">Start</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#brief" aria-label="Für dich"><span class="nav-label">Für dich</span><span class="dot" aria-hidden="true"></span></a>
+    <a href="#afternoon" aria-label="Nachmittagsdrink"><span class="nav-label">Nachmittagsdrink</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#dinner" aria-label="Dinner"><span class="nav-label">Dinner</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#bars" aria-label="Bars"><span class="nav-label">Bars</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#club" aria-label="LULA Club"><span class="nav-label">LULA Club</span><span class="dot" aria-hidden="true"></span></a>
@@ -462,11 +480,9 @@
       <a href="#abend">Euer Abend ↓</a>
     </nav>
     <div class="hero-content wrap">
-      <p class="eyebrow">Für Fabio, zum Geburtstag</p>
       <h1>Hola,<br><em>Fabio.</em></h1>
       <p class="hero-copy">Ich habe mir etwas für euch zwei ausgedacht: einen Abend in Madrid, der erst endet, wenn dein Geburtstag längst angefangen hat.</p>
       <div class="hero-bottom">
-        <span>Freitag, 27. November 2026<br>Madrid, Spanien</span>
         <a href="#brief">Eure Nacht entdecken ↓</a>
       </div>
     </div>
@@ -492,13 +508,35 @@
     </section>
 
     <section class="itinerary" id="abend" aria-labelledby="abend-title">
-      <article class="chapter panel" id="dinner" aria-labelledby="dinner-title">
+      <section class="chapter panel" id="afternoon" aria-labelledby="afternoon-title">
         <div class="panel-stage"><div class="wrap">
         <div class="itinerary-heading reveal">
           <h2 id="abend-title">Eure Nacht, Kapitel für Kapitel</h2>
           <p>27.11. → 28.11.2026</p>
         </div>
-        <div class="chapter-label eyebrow reveal"><span>19:30 · Erst mal ankommen</span><span>01 / 03</span></div>
+        <div class="chapter-label eyebrow reveal"><span>Nachmittag · zum Einstimmen</span><span>01 / 04</span></div>
+        <div class="chapter-copy reveal">
+          <h2 class="section-title" id="afternoon-title">Ein Drink <em>zum Auftakt.</em></h2>
+          <p>Bevor es zum Dinner geht, sucht euch aus, worauf ihr Lust habt: Aussicht über Madrid oder eine gemütliche Runde Yatzy.</p>
+        </div>
+        <div class="afternoon-options">
+          <a class="afternoon-option reveal" href="https://maps.app.goo.gl/FTu3pLAUNLVrHyMM9" target="_blank" rel="noopener noreferrer">
+            <h3>La Manuela</h3>
+            <p>Eine ehrliche, lokale Bar zum Spielen – perfekt für ein nachmittägliches Yatzy.</p>
+            <span>Auf Google Maps ansehen ↗</span>
+          </a>
+          <a class="afternoon-option reveal" href="https://maps.app.goo.gl/tyQQ95Na1BguPT3RA" target="_blank" rel="noopener noreferrer">
+            <h3>Makáá</h3>
+            <p>Eine elegante Rooftop-Bar mit toller Aussicht. Besonders schön, wenn das Wetter mitspielt.</p>
+            <span>Auf Google Maps ansehen ↗</span>
+          </a>
+        </div>
+        </div></div>
+      </section>
+
+      <article class="chapter panel" id="dinner" aria-labelledby="dinner-title">
+        <div class="panel-stage"><div class="wrap">
+        <div class="chapter-label eyebrow reveal"><span>19:30 · Erst mal ankommen</span><span>02 / 04</span></div>
         <div class="dinner-layout">
           <div class="dinner-photo photo reveal" role="img" aria-label="Stimmungsvoll gedeckter Restauranttisch"></div>
           <div class="chapter-copy reveal">
@@ -513,7 +551,7 @@
 
       <section class="chapter panel" id="bars" aria-labelledby="bars-title">
         <div class="panel-stage"><div class="wrap">
-        <div class="chapter-label eyebrow reveal"><span>Danach · ein Drink, vielleicht zwei</span><span>02 / 03</span></div>
+        <div class="chapter-label eyebrow reveal"><span>Danach · ein Drink, vielleicht zwei</span><span>03 / 04</span></div>
         <div class="chapter-copy bars-copy reveal">
           <h2 class="section-title" id="bars-title">Folgt der <em>Musik.</em></h2>
           <p>Ich habe euch ein paar Bars ausgesucht. Ihr müsst nicht alle besuchen: Schaut einfach, wo Platz ist und wo es euch gefällt. Es ist Freitagabend – ein bisschen Auswahl kann nicht schaden.</p>
@@ -530,7 +568,7 @@
 
       <section class="chapter panel" id="club" aria-labelledby="club-title">
         <div class="panel-stage"><div class="wrap">
-        <div class="chapter-label eyebrow reveal"><span>Und dann · ab auf die Tanzfläche</span><span>03 / 03</span></div>
+        <div class="chapter-label eyebrow reveal"><span>Und dann · ab auf die Tanzfläche</span><span>04 / 04</span></div>
         <div class="club-layout">
           <div class="club-photo reveal">
             <p class="eyebrow">Die Nacht auf deinen Geburtstag</p>
@@ -671,12 +709,13 @@
         activeSection = current;
       }
       const position = window.scrollY + window.innerHeight * .4;
-      const sectionTop = (index) => sections[index].getBoundingClientRect().top + window.scrollY;
+      const sectionTop = (id) => document.getElementById(id).getBoundingClientRect().top + window.scrollY;
       const between = (start, end) => Math.min(1, Math.max(0, (position - start) / Math.max(1, end - start)));
-      const afternoonToSunset = between(sectionTop(1), sectionTop(2));
-      const sunsetToNight = between(sectionTop(3), sectionTop(4));
-      sunset.style.opacity = reducedMotion.matches ? (current === 2 || current === 3 ? 1 : 0) : afternoonToSunset * (1 - sunsetToNight);
-      night.style.opacity = reducedMotion.matches ? (current >= 4 ? 1 : 0) : between(sectionTop(2), sectionTop(4));
+      const afternoonToSunset = between(sectionTop("afternoon"), sectionTop("dinner"));
+      const sunsetToNight = between(sectionTop("bars"), sectionTop("club"));
+      const currentId = sections[current].id;
+      sunset.style.opacity = reducedMotion.matches ? (currentId === "dinner" || currentId === "bars" ? 1 : 0) : afternoonToSunset * (1 - sunsetToNight);
+      night.style.opacity = reducedMotion.matches ? (currentId === "club" || currentId === "soundtrack" ? 1 : 0) : between(sectionTop("dinner"), sectionTop("club"));
       ticking = false;
     }
     window.addEventListener("scroll", () => {
