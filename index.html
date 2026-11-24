@@ -199,20 +199,46 @@
     }
     .hero-bottom a { flex-shrink: 0; text-decoration: none; }
 
-    .panel { min-height: 135svh; }
-    .panel-stage {
+    .story { position: relative; }
+    .city-stage {
       position: sticky;
       top: 0;
+      height: 100svh;
+      overflow: hidden;
+      background: #d3a386;
+      pointer-events: none;
+    }
+    .city-stage > div { position: absolute; inset: 0; }
+    .city-image {
+      background: #d3a386 url("https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=2200&q=85") center / cover;
+    }
+    .city-afternoon { background: linear-gradient(180deg, rgba(247, 209, 157, .28), rgba(138, 82, 59, .25)); }
+    .city-sunset {
+      opacity: 0;
+      background: linear-gradient(180deg, rgba(197, 91, 94, .55), rgba(236, 148, 97, .44) 48%, rgba(86, 45, 59, .5));
+    }
+    .city-night {
+      opacity: 0;
+      background: linear-gradient(180deg, rgba(29, 34, 72, .9), rgba(70, 47, 86, .72) 48%, rgba(20, 25, 45, .87));
+    }
+    .story-content { position: relative; margin-top: -100svh; }
+    .panel { min-height: 135svh; }
+    .panel-stage {
+      position: relative;
       display: flex;
       min-height: 100svh;
       align-items: center;
       padding-block: 36px 64px;
-      background:
-        radial-gradient(ellipse at 12% 18%, rgba(175, 199, 186, .3), transparent 55%),
-        radial-gradient(ellipse at 85% 85%, rgba(224, 172, 152, .25), transparent 52%),
-        var(--paper);
     }
-    .panel-stage > .wrap { width: calc(100% - 72px); margin-left: 20px; margin-right: 52px; }
+    .panel-stage > .wrap {
+      width: calc(100% - 72px);
+      max-width: 980px;
+      margin-left: 20px;
+      margin-right: 52px;
+      padding: 20px;
+      background: rgba(245, 238, 230, .94);
+      box-shadow: 0 18px 60px rgba(37, 25, 30, .14);
+    }
     .intro { padding: 0; }
     .intro .eyebrow { color: var(--muted); }
     .intro h2, .section-title {
@@ -353,7 +379,7 @@
     footer p { margin: 0; color: var(--muted); font-size: .75rem; }
     footer strong { display: block; margin-bottom: 8px; color: var(--ink); font: italic 1.75rem var(--serif); }
 
-    .will-reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .will-reveal { opacity: 0; transform: translateY(60px); transition: opacity .75s ease, transform .9s cubic-bezier(.2, .7, .2, 1); }
     .will-reveal.is-visible { opacity: 1; transform: none; }
     .will-reveal:focus-within { opacity: 1; transform: none; }
 
@@ -362,7 +388,7 @@
       .hero { min-height: 100svh; }
       .hero-content { padding-bottom: 55px; }
       .hero h1 { font-size: clamp(6rem, 11vw, 9.5rem); }
-      .panel-stage > .wrap { width: min(100% - 80px, 1120px); margin-inline: auto; }
+      .panel-stage > .wrap { width: min(100% - 80px, 980px); margin-inline: auto; padding: 34px; }
       .intro h2 { max-width: 800px; }
       .chapter-label { margin-bottom: 24px; }
       .dinner-layout, .club-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(40px, 7vw, 100px); align-items: center; }
@@ -401,6 +427,8 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: .01ms !important; }
       .will-reveal { opacity: 1; transform: none; }
+      .city-stage { position: relative; height: 40svh; }
+      .story-content { margin-top: 0; }
       .panel { min-height: 0; }
       .panel-stage { position: static; min-height: 0; padding-block: 70px; }
     }
@@ -444,7 +472,14 @@
     </div>
   </header>
 
-  <main>
+  <main class="story">
+    <div class="city-stage" aria-hidden="true">
+      <div class="city-image"></div>
+      <div class="city-afternoon"></div>
+      <div class="city-sunset"></div>
+      <div class="city-night"></div>
+    </div>
+    <div class="story-content">
     <section class="intro panel" id="brief" aria-labelledby="intro-title">
       <div class="panel-stage">
         <div class="wrap reveal">
@@ -528,6 +563,7 @@
         </div></div>
       </section>
     </section>
+    </div>
   </main>
 
   <footer>
@@ -540,6 +576,7 @@
     const musicToggle = document.getElementById("music-toggle");
     const musicFeedback = document.getElementById("music-feedback");
     const welcome = document.getElementById("welcome");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     function showMusicError() {
       musicStatus.textContent = "Die Audiodatei konnte nicht geladen werden.";
@@ -592,7 +629,7 @@
     }
 
     if ("IntersectionObserver" in window) {
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (!reducedMotion.matches) {
         const revealObserver = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -612,6 +649,8 @@
     const progress = document.getElementById("scroll-progress");
     const sectionLinks = Array.from(document.querySelectorAll(".section-nav a"));
     const sections = sectionLinks.map((link) => document.querySelector(link.getAttribute("href")));
+    const sunset = document.querySelector(".city-sunset");
+    const night = document.querySelector(".city-night");
     let activeSection = null;
     let ticking = false;
     function updateProgress() {
@@ -631,6 +670,13 @@
         });
         activeSection = current;
       }
+      const position = window.scrollY + window.innerHeight * .4;
+      const sectionTop = (index) => sections[index].getBoundingClientRect().top + window.scrollY;
+      const between = (start, end) => Math.min(1, Math.max(0, (position - start) / Math.max(1, end - start)));
+      const afternoonToSunset = between(sectionTop(1), sectionTop(2));
+      const sunsetToNight = between(sectionTop(3), sectionTop(4));
+      sunset.style.opacity = reducedMotion.matches ? (current === 2 || current === 3 ? 1 : 0) : afternoonToSunset * (1 - sunsetToNight);
+      night.style.opacity = reducedMotion.matches ? (current >= 4 ? 1 : 0) : between(sectionTop(2), sectionTop(4));
       ticking = false;
     }
     window.addEventListener("scroll", () => {
