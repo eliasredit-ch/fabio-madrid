@@ -31,7 +31,7 @@
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; }
-    a:focus-visible, audio:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+    a:focus-visible, button:focus-visible, audio:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
     .wrap { width: min(100% - 40px, 1120px); margin-inline: auto; }
     .eyebrow {
       margin: 0;
@@ -58,6 +58,57 @@
       transform: scaleX(0);
       transform-origin: left;
     }
+    .welcome {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      margin: 0;
+      padding: 28px;
+      border: 0;
+      background: var(--paper);
+      color: var(--ink);
+      text-align: center;
+    }
+    .welcome::backdrop { background: var(--paper); }
+    .welcome[open] { position: fixed; z-index: 20; inset: 0; display: grid; place-items: center; }
+    body.welcome-open { overflow: hidden; }
+    .welcome-content { max-width: 430px; }
+    .welcome h2 { margin: 18px 0; font: 500 clamp(3.2rem, 14vw, 5.5rem)/1 var(--serif); letter-spacing: -.05em; }
+    .welcome p:not(.eyebrow) { margin: 0 auto; color: var(--muted); }
+    .welcome button {
+      min-height: 52px;
+      margin-top: 32px;
+      padding: 0 25px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      font: 600 .8rem var(--sans);
+      cursor: pointer;
+    }
+    .music-control {
+      position: fixed;
+      z-index: 11;
+      right: 16px;
+      bottom: 16px;
+      max-width: min(300px, calc(100% - 32px));
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: 0 3px 15px rgba(37, 37, 33, .1);
+    }
+    .music-control[hidden] { display: none; }
+    .music-control button {
+      min-height: 32px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--ink);
+      font: 600 .75rem var(--sans);
+      cursor: pointer;
+    }
+    .music-control p { margin: 4px 0 0; color: var(--muted); font-size: .72rem; }
+    .music-control p:empty { display: none; }
 
     .hero {
       position: relative;
@@ -280,6 +331,18 @@
   </style>
 </head>
 <body>
+  <dialog class="welcome" id="welcome" aria-labelledby="welcome-title" aria-describedby="welcome-description">
+    <div class="welcome-content">
+      <p class="eyebrow">Für Fabio · Madrid 2026</p>
+      <h2 id="welcome-title">Ein Abend<br>für dich.</h2>
+      <p id="welcome-description">Für diese Geschichte gibt es einen Soundtrack. Mach es dir gemütlich und dreh den Ton auf.</p>
+      <button id="welcome-start" type="button">Euren Abend starten ↗</button>
+    </div>
+  </dialog>
+  <div class="music-control" id="music-control" hidden>
+    <button id="music-toggle" type="button">▶ Musik abspielen</button>
+    <p id="music-feedback" role="status"></p>
+  </div>
   <div class="progress" aria-hidden="true"><span id="scroll-progress"></span></div>
   <header class="hero" id="start">
     <nav class="topbar wrap" aria-label="Hauptnavigation">
@@ -360,7 +423,7 @@
             <p class="eyebrow">Für diesen Moment</p>
             <h3>„Relight My Fire“</h3>
             <p>Dan Hartman aufdrehen. Und dann: auf dich, Fabio.</p>
-            <p id="music-status" aria-live="polite">Falls die Musik nicht automatisch startet, drücke auf Play.</p>
+            <p id="music-status" aria-live="polite">Den Soundtrack kannst du hier jederzeit pausieren oder wieder abspielen.</p>
           </div>
           <audio id="birthday-song" controls preload="metadata" aria-label="Relight My Fire von Dan Hartman abspielen">
             <source src="Dan%20Hartman%2C%2012%20Disco%20-%20Relight%20My%20Fire%20%2812%20Disco%20Remix%29.mp3" type="audio/mpeg">
@@ -377,26 +440,62 @@
   <script>
     const song = document.getElementById("birthday-song");
     const musicStatus = document.getElementById("music-status");
+    const musicControl = document.getElementById("music-control");
+    const musicToggle = document.getElementById("music-toggle");
+    const musicFeedback = document.getElementById("music-feedback");
+    const welcome = document.getElementById("welcome");
 
-    song.addEventListener("error", () => {
+    function showMusicError() {
       musicStatus.textContent = "Die Audiodatei konnte nicht geladen werden.";
+      musicFeedback.textContent = "Die Musik konnte nicht abgespielt werden.";
+    }
+    function updateMusicControl() {
+      musicToggle.textContent = song.paused ? "▶ Musik abspielen" : "Ⅱ Musik pausieren";
+    }
+    function startSong() {
+      const playback = song.play();
+      playback.then(() => {
+        musicFeedback.textContent = "";
+      }).catch(() => {
+        if (song.error) {
+          showMusicError();
+        } else {
+          musicFeedback.textContent = "Bitte tippe auf „Musik abspielen“.";
+        }
+      });
+    }
+
+    song.addEventListener("error", showMusicError);
+    song.addEventListener("play", updateMusicControl);
+    song.addEventListener("pause", updateMusicControl);
+    musicControl.hidden = false;
+    musicToggle.addEventListener("click", () => {
+      if (song.paused) {
+        startSong();
+      } else {
+        song.pause();
+      }
     });
+    document.getElementById("welcome-start").addEventListener("click", () => {
+      startSong();
+      if (typeof welcome.close === "function") {
+        welcome.close();
+      } else {
+        welcome.removeAttribute("open");
+      }
+      document.body.classList.remove("welcome-open");
+    });
+    welcome.addEventListener("cancel", (event) => {
+      event.preventDefault();
+    });
+    document.body.classList.add("welcome-open");
+    if (typeof welcome.showModal === "function") {
+      welcome.showModal();
+    } else {
+      welcome.setAttribute("open", "");
+    }
 
     if ("IntersectionObserver" in window) {
-      const musicObserver = new IntersectionObserver((entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          musicObserver.disconnect();
-          if (song.paused) {
-            song.play().catch(() => {
-              musicStatus.textContent = song.error
-                ? "Die Audiodatei konnte nicht geladen werden."
-                : "Drücke auf Play, um den Song zu starten.";
-            });
-          }
-        }
-      }, { threshold: 0.5 });
-      musicObserver.observe(document.querySelector(".music"));
-
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const revealObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach((entry) => {
