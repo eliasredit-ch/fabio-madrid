@@ -257,21 +257,7 @@
     }
     .music h3 { margin: 3px 0 0; font: 500 clamp(1.5rem,3vw,2.25rem)/1.15 var(--serif); }
     .music p { margin: 4px 0 0; color: var(--muted); font-size: .82rem; }
-    .play-button {
-      display: inline-flex;
-      min-height: 45px;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      padding: 0 17px;
-      border: 1px solid rgba(235,200,142,.55);
-      border-radius: 2px;
-      color: var(--gold);
-      font: 600 .77rem var(--sans);
-      text-decoration: none;
-      transition: background .2s ease;
-    }
-    .play-button:hover { background: rgba(235,200,142,.1); }
+    .music audio { display: block; width: min(100%, 300px); }
     footer { padding-block: 35px 44px; border-top: 1px solid var(--line); text-align: center; }
     footer p { margin: 0; color: var(--muted); font-size: .78rem; }
     footer strong { color: var(--ink); font-family: var(--serif); font-size: 1.17rem; font-weight: 500; }
@@ -296,7 +282,6 @@
       .club-copy { padding-bottom: 15px; }
       .ticket-note { justify-self: start; margin: 0 0 29px 28px; }
       .music { grid-template-columns: 1fr; gap: 17px; margin-top: -40px; padding: 21px; }
-      .play-button { width: fit-content; }
       .itinerary { padding-bottom: 76px; }
       .club { margin-bottom: 78px; }
       .music { margin-bottom: 78px; }
@@ -375,9 +360,13 @@
         <div>
           <div class="eyebrow">Der eine Song</div>
           <h3>„Relight My Fire“ — der Geburtstagsmoment.</h3>
-          <p>Dan Hartmann aufdrehen, mitsingen, Fabio feiern.</p>
+          <p>Dan Hartman aufdrehen, mitsingen, Fabio feiern.</p>
+          <p id="music-status" aria-live="polite">Falls die Musik nicht automatisch startet, drücke auf Play.</p>
         </div>
-        <a class="play-button" href="https://www.youtube.com/results?search_query=Dan+Hartman+Relight+My+Fire" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span> Song öffnen</a>
+        <audio id="birthday-song" controls preload="metadata" aria-label="Relight My Fire von Dan Hartman abspielen">
+          <source src="Dan%20Hartman%2C%2012%20Disco%20-%20Relight%20My%20Fire%20%2812%20Disco%20Remix%29.mp3" type="audio/mpeg">
+          Dein Browser unterstützt die Audiowiedergabe nicht.
+        </audio>
       </section>
     </section>
   </main>
@@ -385,5 +374,29 @@
   <footer>
     <div class="wrap"><p><strong>Für Fabio, zum Geburtstag.</strong><br>Freitag, 27. November → Samstag, 28. November 2026 · Madrid</p></div>
   </footer>
+  <script>
+    const song = document.getElementById("birthday-song");
+    const musicStatus = document.getElementById("music-status");
+
+    song.addEventListener("error", () => {
+      musicStatus.textContent = "Die Audiodatei konnte nicht geladen werden.";
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          if (song.paused) {
+            song.play().catch(() => {
+              musicStatus.textContent = song.error
+                ? "Die Audiodatei konnte nicht geladen werden."
+                : "Drücke auf Play, um den Song zu starten.";
+            });
+          }
+        }
+      }, { threshold: 0.5 });
+      observer.observe(document.querySelector(".music"));
+    }
+  </script>
 </body>
 </html>
