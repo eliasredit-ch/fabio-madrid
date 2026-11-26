@@ -72,23 +72,24 @@
       margin: 0;
       padding: 28px;
       border: 0;
-      background: var(--paper);
-      color: var(--ink);
+      background: linear-gradient(rgba(28, 20, 24, .58), rgba(28, 20, 24, .7)), url("R1-09800-0031.JPG") center 42% / cover no-repeat;
+      color: #fffaf3;
       text-align: center;
     }
     .welcome::backdrop { background: var(--paper); }
     .welcome[open] { position: fixed; z-index: 20; inset: 0; display: grid; place-items: center; }
     body.welcome-open { overflow: hidden; }
     .welcome-content { max-width: 430px; }
+    .welcome .eyebrow { color: #f0dfd6; }
     .welcome h2 { margin: 18px 0; font: 500 clamp(3.2rem, 14vw, 5.5rem)/1 var(--serif); letter-spacing: -.05em; }
-    .welcome p:not(.eyebrow) { margin: 0 auto; color: var(--muted); }
+    .welcome p:not(.eyebrow) { margin: 0 auto; color: #f5eee6; }
     .welcome button {
       min-height: 52px;
       margin-top: 32px;
       padding: 0 25px;
-      border: 1px solid var(--ink);
-      background: var(--accent);
-      color: var(--paper);
+      border: 1px solid #f5eee6;
+      background: #f5eee6;
+      color: var(--ink);
       font: 600 .8rem var(--sans);
       cursor: pointer;
     }
@@ -185,18 +186,7 @@
     }
     .topbar a { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-decoration: none; text-transform: uppercase; }
     .topbar a:last-child { font-weight: 500; letter-spacing: .03em; text-transform: none; }
-    .hero-content { padding-block: 30px 48px; }
-    .hero-layout { display: grid; gap: 20px; }
-    .hero-portrait {
-      display: block;
-      width: min(42%, 150px);
-      aspect-ratio: 4 / 5;
-      justify-self: end;
-      object-fit: cover;
-      object-position: center;
-      border: 4px solid rgba(245, 238, 230, .85);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, .3);
-    }
+    .hero-content { padding-block: 105px 48px; }
     .hero-content .eyebrow { color: #e2d9cb; }
     .hero h1 {
       margin: 20px 0 22px;
@@ -424,9 +414,7 @@
     @media (min-width: 720px) {
       .wrap { width: min(100% - 80px, 1120px); }
       .hero { min-height: 100svh; }
-      .hero-content { padding-block: 80px 55px; }
-      .hero-layout { grid-template-columns: 1fr minmax(200px, 310px); align-items: end; gap: 40px; }
-      .hero-portrait { order: 1; width: 100%; }
+      .hero-content { padding-bottom: 55px; }
       .hero h1 { font-size: clamp(6rem, 11vw, 9.5rem); }
       .panel-stage > .wrap { width: min(100% - 80px, 980px); margin-inline: auto; padding: 34px; }
       .intro h2 { max-width: 800px; }
@@ -508,13 +496,8 @@
       <a href="#abend">Euer Abend ↓</a>
     </nav>
     <div class="hero-content wrap">
-      <div class="hero-layout">
-        <img class="hero-portrait" src="R1-09800-0031.JPG" alt="Fabio">
-        <div>
-          <h1>Hola,<br><em>Fabio.</em></h1>
-          <p class="hero-copy">Ich habe mir etwas für euch zwei ausgedacht: einen Abend in Madrid, der erst endet, wenn dein Geburtstag längst angefangen hat.</p>
-        </div>
-      </div>
+      <h1>Hola,<br><em>Fabio.</em></h1>
+      <p class="hero-copy">Ich habe mir etwas für euch zwei ausgedacht: einen Abend in Madrid, der erst endet, wenn dein Geburtstag längst angefangen hat.</p>
       <div class="hero-bottom">
         <a href="#brief">Eure Nacht entdecken ↓</a>
       </div>
