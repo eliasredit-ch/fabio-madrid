@@ -289,6 +289,14 @@
       background-image: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85");
       background-color: #b8b3a9;
     }
+    .riela-photo {
+      display: block;
+      width: 100%;
+      height: clamp(180px, 28svh, 280px);
+      margin-bottom: 18px;
+      object-fit: cover;
+      object-position: center 70%;
+    }
     .status {
       display: inline-block;
       margin-top: 16px;
@@ -406,6 +414,7 @@
       .dinner-layout, .club-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(40px, 7vw, 100px); align-items: center; }
       .afternoon-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .dinner-photo { height: clamp(260px, 42svh, 490px); margin: 0; }
+      .riela-photo { height: clamp(260px, 42svh, 490px); margin: 0; }
       .bars-copy { margin-bottom: 24px; }
       .bar-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .bar-card { min-height: clamp(180px, 32svh, 300px); padding: 20px; }
@@ -597,10 +606,13 @@
       <section class="chapter panel" id="samstag" aria-labelledby="samstag-title">
         <div class="panel-stage"><div class="wrap">
         <div class="chapter-label eyebrow reveal"><span>Samstag · nach dem Frühstück</span></div>
+        <div class="dinner-layout">
+        <img class="riela-photo reveal" src="WNQx42RsD8JgTHnDvtRAgA.jpg" alt="Stimmungsvolles Badebecken im Riela Bath House" loading="lazy">
         <div class="chapter-copy reveal">
           <h2 class="section-title" id="samstag-title">Und danach? <em>Durchatmen.</em></h2>
           <p>Falls ihr noch einen Plan nach dem Auskatern und Frühstücken sucht... vielleicht ein wenig Sauna? Ich habe vom Riela Bath House gelesen. Bucht euch doch da einen Slot wenn ihr wollt, sieht echt fancy und entspannend aus.</p>
           <a class="maps-link" href="https://rielabathhouse.com/" target="_blank" rel="noopener noreferrer">Riela Bath House ansehen ↗</a>
+        </div>
         </div>
         </div></div>
       </section>
