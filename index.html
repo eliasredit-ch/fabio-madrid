@@ -471,6 +471,7 @@
     <a href="#dinner" aria-label="Dinner"><span class="nav-label">Dinner</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#bars" aria-label="Bars"><span class="nav-label">Bars</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#club" aria-label="LULA Club"><span class="nav-label">LULA Club</span><span class="dot" aria-hidden="true"></span></a>
+    <a href="#samstag" aria-label="Samstag"><span class="nav-label">Samstag</span><span class="dot" aria-hidden="true"></span></a>
   </nav>
   <header class="hero" id="start">
     <nav class="topbar wrap" aria-label="Hauptnavigation">
@@ -593,6 +594,17 @@
         </div></div>
       </section>
 
+      <section class="chapter panel" id="samstag" aria-labelledby="samstag-title">
+        <div class="panel-stage"><div class="wrap">
+        <div class="chapter-label eyebrow reveal"><span>Samstag · nach dem Frühstück</span></div>
+        <div class="chapter-copy reveal">
+          <h2 class="section-title" id="samstag-title">Und danach? <em>Durchatmen.</em></h2>
+          <p>Falls ihr noch einen Plan nach dem Auskatern und Frühstücken sucht... vielleicht ein wenig Sauna? Ich habe vom Riela Bath House gelesen. Bucht euch doch da einen Slot wenn ihr wollt, sieht echt fancy und entspannend aus.</p>
+          <a class="maps-link" href="https://rielabathhouse.com/" target="_blank" rel="noopener noreferrer">Riela Bath House ansehen ↗</a>
+        </div>
+        </div></div>
+      </section>
+
     </section>
     </div>
   </main>
@@ -706,7 +718,8 @@
       const sunsetToNight = between(sectionTop("bars"), sectionTop("club"));
       const currentId = sections[current].id;
       sunset.style.opacity = reducedMotion.matches ? (currentId === "dinner" || currentId === "bars" ? 1 : 0) : afternoonToSunset * (1 - sunsetToNight);
-      night.style.opacity = reducedMotion.matches ? (currentId === "club" ? 1 : 0) : between(sectionTop("dinner"), sectionTop("club"));
+      const nightToMorning = between(sectionTop("samstag") - window.innerHeight * .4, sectionTop("samstag") + window.innerHeight * .4);
+      night.style.opacity = reducedMotion.matches ? (currentId === "club" ? 1 : 0) : between(sectionTop("dinner"), sectionTop("club")) * (1 - nightToMorning);
       ticking = false;
     }
     window.addEventListener("scroll", () => {
