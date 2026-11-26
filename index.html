@@ -122,23 +122,30 @@
       right: 4px;
       display: grid;
       padding: 3px 0;
-      border: 1px solid rgba(69, 104, 93, .2);
-      border-radius: 24px;
-      background: rgba(245, 238, 230, .92);
       transform: translateY(-50%);
+    }
+    .section-nav::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0 11px;
+      border: 1px solid rgba(69, 104, 93, .15);
+      border-radius: 24px;
+      background: rgba(245, 238, 230, .66);
+      content: "";
+      pointer-events: none;
     }
     .section-nav a {
       position: relative;
       display: grid;
-      width: 42px;
+      width: 44px;
       min-height: 44px;
       place-items: center;
       color: #355f55;
       text-decoration: none;
     }
     .section-nav .dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border: 2px solid currentColor;
       border-radius: 50%;
       transition: background-color .25s ease, transform .25s ease;
@@ -178,7 +185,18 @@
     }
     .topbar a { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-decoration: none; text-transform: uppercase; }
     .topbar a:last-child { font-weight: 500; letter-spacing: .03em; text-transform: none; }
-    .hero-content { padding-block: 105px 48px; }
+    .hero-content { padding-block: 30px 48px; }
+    .hero-layout { display: grid; gap: 20px; }
+    .hero-portrait {
+      display: block;
+      width: min(42%, 150px);
+      aspect-ratio: 4 / 5;
+      justify-self: end;
+      object-fit: cover;
+      object-position: center;
+      border: 4px solid rgba(245, 238, 230, .85);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .3);
+    }
     .hero-content .eyebrow { color: #e2d9cb; }
     .hero h1 {
       margin: 20px 0 22px;
@@ -406,7 +424,9 @@
     @media (min-width: 720px) {
       .wrap { width: min(100% - 80px, 1120px); }
       .hero { min-height: 100svh; }
-      .hero-content { padding-bottom: 55px; }
+      .hero-content { padding-block: 80px 55px; }
+      .hero-layout { grid-template-columns: 1fr minmax(200px, 310px); align-items: end; gap: 40px; }
+      .hero-portrait { order: 1; width: 100%; }
       .hero h1 { font-size: clamp(6rem, 11vw, 9.5rem); }
       .panel-stage > .wrap { width: min(100% - 80px, 980px); margin-inline: auto; padding: 34px; }
       .intro h2 { max-width: 800px; }
@@ -488,8 +508,13 @@
       <a href="#abend">Euer Abend ↓</a>
     </nav>
     <div class="hero-content wrap">
-      <h1>Hola,<br><em>Fabio.</em></h1>
-      <p class="hero-copy">Ich habe mir etwas für euch zwei ausgedacht: einen Abend in Madrid, der erst endet, wenn dein Geburtstag längst angefangen hat.</p>
+      <div class="hero-layout">
+        <img class="hero-portrait" src="R1-09800-0031.JPG" alt="Fabio">
+        <div>
+          <h1>Hola,<br><em>Fabio.</em></h1>
+          <p class="hero-copy">Ich habe mir etwas für euch zwei ausgedacht: einen Abend in Madrid, der erst endet, wenn dein Geburtstag längst angefangen hat.</p>
+        </div>
+      </div>
       <div class="hero-bottom">
         <a href="#brief">Eure Nacht entdecken ↓</a>
       </div>
