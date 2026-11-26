@@ -387,18 +387,6 @@
     .club-photo h3 { margin: 8px 0 0; font: 500 clamp(2.5rem, 10vw, 5rem)/1 var(--serif); letter-spacing: -.04em; }
     .club-photo p { margin: 8px 0 0; color: #edeae4; font-size: .8rem; }
     .club-copy { margin-top: 18px; }
-    .music {
-      display: grid;
-      gap: 12px;
-      margin-top: 20px;
-      padding: 18px;
-      border-left: 3px solid var(--accent);
-      background: var(--surface);
-    }
-    .music h2 { margin: 7px 0; font: 500 1.6rem/1.2 var(--serif); }
-    .music p:not(.eyebrow) { margin: 5px 0 0; color: var(--muted); font-size: .82rem; }
-    .music audio { display: block; width: min(100%, 300px); max-width: 100%; }
-    .music-panel .music { max-width: 840px; margin: 0; }
     footer { padding-block: 45px 60px; border-top: 1px solid var(--line); }
     footer p { margin: 0; color: var(--muted); font-size: .75rem; }
     footer strong { display: block; margin-bottom: 8px; color: var(--ink); font: italic 1.75rem var(--serif); }
@@ -423,7 +411,6 @@
       .bar-card { min-height: clamp(180px, 32svh, 300px); padding: 20px; }
       .club-photo { min-height: clamp(250px, 40svh, 480px); padding: 40px; }
       .club-copy { margin: 0; }
-      .music { grid-template-columns: 1fr auto; align-items: center; gap: 30px; padding: 32px; }
       footer { padding-block: 55px 70px; }
     }
     @media (min-width: 1200px) {
@@ -471,6 +458,10 @@
   <div class="music-control" id="music-control" hidden>
     <button id="music-toggle" type="button">▶ Musik abspielen</button>
     <p id="music-feedback" role="status"></p>
+    <audio id="birthday-song" preload="metadata">
+      <source src="Dan%20Hartman%2C%2012%20Disco%20-%20Relight%20My%20Fire%20%2812%20Disco%20Remix%29.mp3" type="audio/mpeg">
+      Dein Browser unterstützt die Audiowiedergabe nicht.
+    </audio>
   </div>
   <div class="progress" aria-hidden="true"><span id="scroll-progress"></span></div>
   <nav class="section-nav" aria-label="Abschnitte des Abends">
@@ -480,7 +471,6 @@
     <a href="#dinner" aria-label="Dinner"><span class="nav-label">Dinner</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#bars" aria-label="Bars"><span class="nav-label">Bars</span><span class="dot" aria-hidden="true"></span></a>
     <a href="#club" aria-label="LULA Club"><span class="nav-label">LULA Club</span><span class="dot" aria-hidden="true"></span></a>
-    <a href="#soundtrack" aria-label="Soundtrack"><span class="nav-label">Soundtrack</span><span class="dot" aria-hidden="true"></span></a>
   </nav>
   <header class="hero" id="start">
     <nav class="topbar wrap" aria-label="Hauptnavigation">
@@ -603,22 +593,6 @@
         </div></div>
       </section>
 
-      <section class="panel music-panel" id="soundtrack" aria-labelledby="soundtrack-title">
-        <div class="panel-stage"><div class="wrap">
-        <div class="music reveal">
-          <div>
-            <p class="eyebrow">Für diesen Moment</p>
-            <h2 id="soundtrack-title">„Relight My Fire“</h2>
-            <p>Dan Hartman aufdrehen. Und dann: auf dich, Fabio.</p>
-            <p id="music-status" aria-live="polite">Den Soundtrack kannst du hier jederzeit pausieren oder wieder abspielen.</p>
-          </div>
-          <audio id="birthday-song" controls preload="metadata" aria-label="Relight My Fire von Dan Hartman abspielen">
-            <source src="Dan%20Hartman%2C%2012%20Disco%20-%20Relight%20My%20Fire%20%2812%20Disco%20Remix%29.mp3" type="audio/mpeg">
-            Dein Browser unterstützt die Audiowiedergabe nicht.
-          </audio>
-        </div>
-        </div></div>
-      </section>
     </section>
     </div>
   </main>
@@ -628,7 +602,6 @@
   </footer>
   <script>
     const song = document.getElementById("birthday-song");
-    const musicStatus = document.getElementById("music-status");
     const musicControl = document.getElementById("music-control");
     const musicToggle = document.getElementById("music-toggle");
     const musicFeedback = document.getElementById("music-feedback");
@@ -636,7 +609,6 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     function showMusicError() {
-      musicStatus.textContent = "Die Audiodatei konnte nicht geladen werden.";
       musicFeedback.textContent = "Die Musik konnte nicht abgespielt werden.";
     }
     function updateMusicControl() {
@@ -734,7 +706,7 @@
       const sunsetToNight = between(sectionTop("bars"), sectionTop("club"));
       const currentId = sections[current].id;
       sunset.style.opacity = reducedMotion.matches ? (currentId === "dinner" || currentId === "bars" ? 1 : 0) : afternoonToSunset * (1 - sunsetToNight);
-      night.style.opacity = reducedMotion.matches ? (currentId === "club" || currentId === "soundtrack" ? 1 : 0) : between(sectionTop("dinner"), sectionTop("club"));
+      night.style.opacity = reducedMotion.matches ? (currentId === "club" ? 1 : 0) : between(sectionTop("dinner"), sectionTop("club"));
       ticking = false;
     }
     window.addEventListener("scroll", () => {
