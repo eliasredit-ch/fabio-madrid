@@ -326,6 +326,11 @@
     .afternoon-option h3 { margin: 0 0 7px; font: 500 1.5rem/1.15 var(--serif); }
     .afternoon-option p { margin: 0; color: var(--muted); font-size: .88rem; }
     .afternoon-option span { display: inline-block; margin-top: 12px; color: var(--accent); font-size: .75rem; font-weight: 700; }
+    .dinner-options { display: grid; gap: 10px; margin-top: 16px; }
+    .dinner-option { padding: 12px 14px; border: 1px solid var(--line); background: rgba(255, 255, 255, .35); }
+    .dinner-option h4 { margin: 0; font: 500 1.25rem/1.2 var(--serif); }
+    .dinner-option p { margin: 4px 0 0 !important; font-size: .84rem; }
+    .dinner-option .maps-link { margin-top: 4px; }
 
     .bars-copy { margin-bottom: 18px; }
     .bar-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -536,14 +541,24 @@
 
       <article class="chapter panel" id="dinner" aria-labelledby="dinner-title">
         <div class="panel-stage"><div class="wrap">
-        <div class="chapter-label eyebrow reveal"><span>19:30 · Erst mal ankommen</span><span>02 / 04</span></div>
+        <div class="chapter-label eyebrow reveal"><span>Abends · Zeit fürs Dinner</span><span>02 / 04</span></div>
         <div class="dinner-layout">
           <div class="dinner-photo photo reveal" role="img" aria-label="Stimmungsvoll gedeckter Restauranttisch"></div>
           <div class="chapter-copy reveal">
             <h3 class="section-title" id="dinner-title">Ein Tisch <em>für euch zwei.</em></h3>
-            <p>Mein Vorschlag für euren Start: VEGA Álamo. In Ruhe essen, ein erstes Glas heben und einfach zusammen in Madrid ankommen.</p>
-            <span class="status">Für 19:30 vorgesehen · noch nicht reserviert</span><br>
-            <a class="maps-link" href="https://www.google.com/maps/search/?api=1&query=VEGA+%C3%81lamo+Madrid" target="_blank" rel="noopener noreferrer">VEGA Álamo auf Maps ansehen ↗</a>
+            <p>Ich habe für euch zwei Restaurants reserviert. Wählt einfach aus, worauf ihr mehr Lust habt.</p>
+            <div class="dinner-options">
+              <div class="dinner-option">
+                <h4>Villa Capri · 19:30</h4>
+                <p>Ein edler Italiener – reserviert für euch.</p>
+                <a class="maps-link" href="https://www.google.com/maps/search/?api=1&amp;query=Villa+Capri+Madrid" target="_blank" rel="noopener noreferrer">Villa Capri auf Google Maps ↗</a>
+              </div>
+              <div class="dinner-option">
+                <h4>Al Mounia · 20:00</h4>
+                <p>Arabisch-marokkanische Küche – ebenfalls für euch reserviert.</p>
+                <a class="maps-link" href="https://www.google.com/maps/search/?api=1&amp;query=Al+Mounia+Madrid" target="_blank" rel="noopener noreferrer">Al Mounia auf Google Maps ↗</a>
+              </div>
+            </div>
           </div>
         </div>
         </div></div>
